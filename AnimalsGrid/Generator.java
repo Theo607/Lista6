@@ -29,6 +29,13 @@ public class Generator {
         return cycle;
     }
 
+    public Integer getRandomNumber(int max) {
+        setRandomNumber();
+        int number = (int)Math.floor(randomNumber * 10) % max;
+        number = Math.abs(number);
+        return number;
+    }
+    
     public Position getRandomPosition(int maxWidth, int maxHeight) {
         setRandomNumber();
         int x = (int)Math.floor(randomNumber * 10) % maxWidth;

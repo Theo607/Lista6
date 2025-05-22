@@ -1,15 +1,19 @@
 package app;
 
+
 import AnimalsGrid.*;
 
 public class Simulation {
     public static void main(String[] args) {
-
-        int n;
-        int m;
-        int k;
-
-        
-        
+        try{
+            int n = Integer.parseInt(args[0]);
+            int m = Integer.parseInt(args[1]);
+            int k = Integer.parseInt(args[2]);
+            Setup setup = new Setup(n, m, 10, k);
+            setup.startSimulation();
+        } catch (Exception e) {
+            System.out.println("Invalid input. Please provide three integers.");
+            return;
+        }
     }
 }
