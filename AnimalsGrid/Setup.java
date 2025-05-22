@@ -42,6 +42,9 @@ public class Setup {
         }
     }
 
+    public String[][] getGrid() {
+        return grid.grid;
+    }
     public void startSimulation() {
         for (Animal animal : animals) {
             animal.start();
