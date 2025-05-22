@@ -85,6 +85,7 @@ public class Hare extends Animal {
                 move(0, -1);
                 break;
         }
+        grid.set(this);
     }
 
     @Override
