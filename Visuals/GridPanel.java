@@ -2,37 +2,25 @@ package Visuals;
 
 import java.awt.*;
 import javax.swing.*;
+import AnimalsGrid.*;
 
 public class GridPanel extends JPanel {
-    private int cellSize;
-    private int rows;
-    private int cols;
-    private String[][] grid;
-
-    public GridPanel(int rows, int cols, int cellSize) {
-        this.rows = rows;
-        this.cols = cols;
-        this.cellSize = cellSize;
-        this.grid = new String[rows][cols];
-        setPreferredSize(new Dimension(cols * cellSize, rows * cellSize));
+    private Grid grid;
+    public GridPanel(Grid grid) {
+        this.grid = grid;
+        this.setLayout(new GridLayout(grid.width, grid.height));
+        for (int i = 0; i < grid.width; i++) {
+            for (int j = 0; j < grid.height; j++) {
+                JLabel label = new JLabel(grid.who(new Position(i, j)));
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+                label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                this.add(label);
+            }
+        }
+        repaint();
     }
-
-    public void setGrid(String[][] grid) {
+    public void updateGrid(Grid grid) {
         this.grid = grid;
         repaint();
     }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                if (grid[row][col] != null) {
-                    g.drawString(grid[row][col], col * cellSize + 10, row * cellSize + 20);
-                }
-                g.drawRect(col * cellSize, row * cellSize, cellSize, cellSize);
-            }
-        }
-    }
-    
 }
