@@ -33,7 +33,7 @@ public class App {
         GridPanel gridPanel = new GridPanel(width, height);
         Rng rng = new Rng();
 
-        Grid grid = new Grid(width, height, rng);
+        Grid grid = new Grid(width, height, hare, rng);
         gridPanel.refreshGrid(grid.getCellTypes());
         
 

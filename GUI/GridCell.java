@@ -7,7 +7,7 @@ public class GridCell extends JButton {
     private String cellType;
 
     public GridCell(String cellType) {
-        this.cellType = cellType;
+        this.cellType = cellType == null ? "" : cellType;
         setPreferredSize(new Dimension(50, 50));
         setBackground(Color.WHITE);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -44,9 +44,14 @@ public class GridCell extends JButton {
     }
 
     public void setCellType(String cellType) {
-        this.cellType = cellType;
+        this.cellType = cellType == null ? "" : cellType;
         setText("");
         setFont(new Font("Segoe UI Emoji", Font.PLAIN, 16));
+        if(cellType == null || cellType.isEmpty()) {
+            setText("");
+            setBackground(Color.WHITE);
+            return;
+        }
         if (cellType.equals("wolf")) {
             setText("\uD83D\uDC3A");
             setBackground(Color.WHITE);
