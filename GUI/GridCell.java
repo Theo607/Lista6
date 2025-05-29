@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class GridCell extends JButton {
     private String cellType;
+    private Boolean isClicked = false;
 
     public GridCell(String cellType) {
         this.cellType = cellType == null ? "" : cellType;
@@ -13,14 +14,14 @@ public class GridCell extends JButton {
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         setFont(new Font("Segoe UI Emoji", Font.PLAIN, 16));
 
-        if (cellType.equals("wolf")) {
+        if (cellType.equals("Wolf")) {
             setText("\uD83D\uDC3A");
-        } else if(cellType.equals("hare")) {
+        } else if(cellType.equals("Hare")) {
             setText("\uD83D\uDC07");
-        } else if(cellType.equals("wolfClicked")) {
+        } else if(cellType.equals("WolfClicked")) {
             setText("\uD83D\uDC3A");
             setBackground(Color.RED);
-        } else if(cellType.equals("hareClicked")) {
+        } else if(cellType.equals("HareClicked")) {
             setText("\uD83D\uDC07");
             setBackground(Color.RED);
         } else {
@@ -31,15 +32,25 @@ public class GridCell extends JButton {
         this.addActionListener(e -> handleClick());
     }
 
+    public Boolean isClicked() {
+        return isClicked;
+    }
+
+    public String getCellType() {
+        return cellType;
+    }
     public void handleClick() {
-        if (cellType.equals("wolf")) {
-            setCellType("wolfClicked");
-        } else if(cellType.equals("hare")) {
-            setCellType("hareClicked");
-        } else if(cellType.equals("wolfClicked")) {
-            setCellType("wolf");
-        } else if(cellType.equals("hareClicked")) {
-            setCellType("hare");
+        isClicked = !isClicked;
+        if (cellType.equals("Wolf")) {
+            setCellType("WolfClicked");
+            setBackground(Color.RED);
+        } else if(cellType.equals("Hare")) {
+            setCellType("HareClicked");
+        } else if(cellType.equals("WolfClicked")) {
+            setCellType("Wolf");
+            setBackground(Color.RED);
+        } else if(cellType.equals("HareClicked")) {
+            setCellType("Hare");
         }
     }
 
@@ -52,16 +63,16 @@ public class GridCell extends JButton {
             setBackground(Color.WHITE);
             return;
         }
-        if (cellType.equals("wolf")) {
+        if (cellType.equals("Wolf")) {
             setText("\uD83D\uDC3A");
             setBackground(Color.WHITE);
-        } else if(cellType.equals("hare")) {
+        } else if(cellType.equals("Hare")) {
             setText("\uD83D\uDC07");
             setBackground(Color.WHITE);
-        } else if(cellType.equals("wolfClicked")) {
+        } else if(cellType.equals("WolfClicked")) {
             setText("\uD83D\uDC3A");
             setBackground(Color.RED);
-        } else if(cellType.equals("hareClicked")) {
+        } else if(cellType.equals("HareClicked")) {
             setText("\uD83D\uDC07");
             setBackground(Color.RED);
         } else {

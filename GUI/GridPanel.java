@@ -6,15 +6,18 @@ import java.awt.*;
 public class GridPanel extends JPanel {
     
     private GridCell[][] gridCells;
+    private boolean[][] clickedCells;
 
     public GridPanel(int width, int height) {
         setLayout(new GridLayout(height, width));
         gridCells = new GridCell[height][width];
+        clickedCells = new boolean[height][width];
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 gridCells[i][j] = new GridCell("");
                 add(gridCells[i][j]);
+                clickedCells[i][j] = gridCells[i][j].isClicked(); // Initialize clicked cells to false
             }
         }
         
@@ -32,10 +35,15 @@ public class GridPanel extends JPanel {
             for (int j = 0; j < gridCells[i].length; j++) {
                 gridCells[i][j].setCellType(cellTypes[i][j]);
                 add(gridCells[i][j]);
+                clickedCells[i][j] = gridCells[i][j].isClicked(); // Update clicked cells state
             }
         }
 
         repaint();
+    }
+
+    public boolean[][] getClickedCells() {
+        return clickedCells;
     }
 
 }

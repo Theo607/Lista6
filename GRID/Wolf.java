@@ -1,20 +1,27 @@
 package GRID;
 
-public class Wolf extends Animal {
-    private static final String TYPE = "wolf";
+public class Wolf extends Thread{
+    private Parameters parameters;
+    private Field field;
 
-    public Wolf(Point position) {
-        super(TYPE, position);
+    private Point position;
+    private boolean won = false;
+    private boolean isClicked = false;
+
+    public Wolf(Parameters parameters, Field field) {
+        this.parameters = parameters;
+        this.field = field;
+        this.position = parameters.getRandomPoint();
+        field.setWolfPosition(this.position, isClicked);
     }
 
-    @Override
-    public void move(String direction) {
-        super.move(direction);
+    public Point getPosition() {
+        return position;
     }
 
-    @Override
-    public String getType() {
-        return TYPE;
+    public void setClicked(boolean isClicked) {
+        this.isClicked = isClicked;
     }
-    
+
+
 }
