@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class GridCell extends JButton {
     private String cellType;
-    private Boolean isClicked = false;
+    private Boolean isClicked;
 
     public GridCell(String cellType) {
         this.cellType = cellType == null ? "" : cellType;
@@ -16,17 +16,22 @@ public class GridCell extends JButton {
 
         if (cellType.equals("Wolf")) {
             setText("\uD83D\uDC3A");
+            this.isClicked = false;
         } else if(cellType.equals("Hare")) {
             setText("\uD83D\uDC07");
+            this.isClicked = false;
         } else if(cellType.equals("WolfClicked")) {
             setText("\uD83D\uDC3A");
             setBackground(Color.RED);
+            this.isClicked = true;
         } else if(cellType.equals("HareClicked")) {
             setText("\uD83D\uDC07");
             setBackground(Color.RED);
+            this.isClicked = true;
         } else {
             setText("");
             setBackground(Color.WHITE);
+            this.isClicked = false;
         }
 
         this.addActionListener(e -> handleClick());
