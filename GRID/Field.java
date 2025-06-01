@@ -2,121 +2,106 @@ package GRID;
 
 public class Field {
     private Parameters parameters;
-
-    private String[][] field;
-    private Point wolfPosition;
-    private Point[] harePositions;
-
+    private Position[] positions; //positions[index] (row, column)
+    private int[][] indexes; //indexes[row][column] = index
+    private AnimalState[] states; //states[index] = State object
+    
     public Field(Parameters parameters) {
         this.parameters = parameters;
-        this.field = new String[parameters.getHeight()][parameters.getWidth()];
-        this.harePositions = new Point[parameters.getHareCount()];
+        int width = parameters.getWidth();
+        int height = parameters.getHeight();
+        positions = new Position[width * height];
+        indexes = new int[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                indexes[i][j] = -1; // Initialize all positions as free
+            }
+        }
+        states = new AnimalState[width * height];
     }
 
-    public boolean viablePosition(Point position) {
-        if (position == null) {
-            return true; 
-        }
-        boolean isValid = true;
-        if (position.getX() < 0 || position.getX() >= parameters.getWidth() ||
-            position.getY() < 0 || position.getY() >= parameters.getHeight()) {
-            isValid = false;
-        }
-        return isValid;
+    public int cycle() {
+        int speed = parameters.getSpeed();
+        return parameters.getInt((int)Math.floor(speed * 0.5), (int)Math.floor(speed * 1.5));
     }
 
-    public boolean isPositionOccupied(Point position) {
-        if (!viablePosition(position)) {
-            throw new IllegalArgumentException("Position out of bounds");
+    public int getRandomInt(int min, int max) {
+        if (min >= max) {
+            throw new IllegalArgumentException("Min must be less than max");
         }
-        return field[position.getY()][position.getX()] != null;
+        return parameters.getInt(min, max);
     }
 
-    public void setPosition(String entity, Point position, boolean clicked) {
-        if (!viablePosition(position)) {
-            throw new IllegalArgumentException("Position out of bounds");
+    public Position getRandomPosition() {
+        return parameters.getRandomPosition();
+    }
+
+    public void addAnimal(Animal animal, int index) {
+        if (animal == null) {
+            throw new IllegalArgumentException("Animal cannot be null");
         }
+        if (index < 0 || index >= states.length) {
+            throw new IndexOutOfBoundsException("Position out of bounds for the field");
+        }
+        
+        Position randomPosition = getRandomPosition();
+        while(!isPositionFree(randomPosition)) {
+            randomPosition = getRandomPosition();
+        }
+
+        positions[index] = randomPosition; // Set the position for the animal
+        indexes[randomPosition.getRow()][randomPosition.getColumn()] = index; // Update the index for the position
+        states[index] = animal.getAnimalState(); // Set the state for the animal
+    }
+
+    public AnimalState[] getStates() {
+        return states;
+    }
+
+    public Position[] getPositions() {
+        return positions;
+    }
+
+    public int[][] getIndexes() {
+        return indexes;
+    }
+
+    public Position getPosition(int index) {
+        if (index < 0 || index >= positions.length) {
+            throw new IndexOutOfBoundsException("Index out of bounds for the field");
+        }
+        return positions[index];
+    }
+
+    public void reposition(int index, Position position) {
+        if(position == null) {
+            throw new IllegalArgumentException("Position cannot be null");
+        }
+        if (index < 0 || index >= states.length) {
+            throw new IndexOutOfBoundsException("Index out of bounds for the field");
+        }
+        indexes[positions[index].getRow()][positions[index].getColumn()] = -1; // Clear old position
+        positions[index] = position; // Update position
+        indexes[position.getRow()][position.getColumn()] = index; // Set new position
+    }
+
+    public boolean isPositionFree(Position position) {
         if (position == null) {
             throw new IllegalArgumentException("Position cannot be null");
         }
-        if (clicked) {
-            entity += "Clicked";
+        if (position.getRow() < 0 || position.getRow() >= parameters.getHeight() || 
+            position.getColumn() < 0 || position.getColumn() >= parameters.getWidth()) {
+            throw new IndexOutOfBoundsException("Position out of bounds for the field");
         }
-        field[position.getY()][position.getX()] = entity;
+        return indexes[position.getRow()][position.getColumn()] == -1;
     }
 
-    public String[][] getField() {
-        return field;
+    public boolean inBounds(Position position) {
+        if (position == null) {
+            throw new IllegalArgumentException("Position cannot be null");
+        }
+        return position.getRow() >= 0 && position.getRow() < parameters.getHeight() &&
+               position.getColumn() >= 0 && position.getColumn() < parameters.getWidth();
     }
 
-    public Point getWolfPosition() {
-        return wolfPosition;
-    }
-
-    public void setWolfPosition(Point wolfPosition, boolean clicked) {
-        if (!viablePosition(wolfPosition)) {
-            throw new IllegalArgumentException("Wolf position out of bounds");
-        }
-        if (wolfPosition == null) {
-            throw new IllegalArgumentException("Wolf position cannot be null");
-        }
-        
-        if(this.wolfPosition != null) {
-            setPosition(null, this.wolfPosition, clicked); // Clear previous position
-        }
-        this.wolfPosition = wolfPosition;
-        setPosition("Wolf", wolfPosition, clicked);
-    }
-
-    public void setWolfClicked() {
-        if (wolfPosition == null) {
-            throw new IllegalStateException("Wolf position is not set");
-        }
-        setPosition("WolfClicked", wolfPosition, true);
-    }
-
-    public void setHareClicked(Hare hare) {
-        int index = hare.getIndex();
-        if (index < 0 || index >= harePositions.length) {
-            throw new IndexOutOfBoundsException("Hare index out of bounds");
-        }
-        if (harePositions[index] == null) {
-            throw new IllegalStateException("Hare position is not set");
-        }
-        setPosition("HareClicked", harePositions[index], true);
-    }
-
-    public Point[] getHarePositions() {
-        return harePositions;
-    }
-
-    public double distance(Point p1, Point p2) {
-        return Math.sqrt(Math.pow(p1.getX() - p2.getX(), 2) + Math.pow(p1.getY() - p2.getY(), 2));
-    }
-
-    public double distanceToWolf(Point harePosition) {
-        if (wolfPosition == null) {
-            throw new IllegalStateException("Wolf position is not set");
-        }
-        return distance(harePosition, wolfPosition);
-    }
-
-    public void setHarePosition(Hare hare, Point harePosition, boolean clicked) {
-        int index = hare.getIndex();
-        if (index < 0 || index >= harePositions.length) {
-            throw new IndexOutOfBoundsException("Hare index out of bounds");
-        }
-        if (!viablePosition(harePosition)) {
-            throw new IllegalArgumentException("Hare position out of bounds");
-        }
-        if(harePositions[index] != null) {
-            setPosition(null,harePositions[index], clicked); // Clear previous position
-        }
-        
-        harePositions[index] = harePosition;
-        setPosition("Hare" , harePosition, clicked);
-    }
-
-
-    
 }

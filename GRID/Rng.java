@@ -10,16 +10,21 @@ public class Rng {
     }
 
     public int getInt(int min, int max) {
-        if (min >= max) {
+        if (min > max) {
             throw new IllegalArgumentException("Max must be greater than min");
+        } else if (min == max) {
+            return min; // If min and max are equal, return min
         }
+        
         return random.nextInt(max - min) + min;
     }
 
-    public Point getRandomPoint(int width, int height) {
+    public Position getRandomPosition(int width, int height) {
         if (width <= 0 || height <= 0) {
             throw new IllegalArgumentException("Width and height must be positive");
         }
-        return new Point(getInt(0, width), getInt(0, height));
+        int row = getInt(0, height);
+        int column = getInt(0, width);
+        return new Position(row, column);
     }
 }

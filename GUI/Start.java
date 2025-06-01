@@ -3,7 +3,7 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 
-public class WelcomePanel extends JPanel{
+public class Start extends JPanel{
 
     private boolean started = false;
     private int width;
@@ -11,7 +11,7 @@ public class WelcomePanel extends JPanel{
     private int speed;
     private int hare;
 
-    public WelcomePanel() {
+    public Start() {
         setLayout(new BorderLayout(10, 10));
 
         JPanel textFieldsPanel = new JPanel();

@@ -4,7 +4,7 @@ public class Parameters {
     private int width;
     private int height;
     private int speed;
-    private int hareCount;
+    private int hareCount; 
     private Rng rng;
 
     public Parameters(int width, int height, int speed, int hareCount, Rng rng) {
@@ -30,8 +30,8 @@ public class Parameters {
         return hareCount;
     }
 
-    public Point getRandomPoint() {
-        return rng.getRandomPoint(height, width);
+    public Position getRandomPosition() {
+        return rng.getRandomPosition(height, width);
     }
 
     public int getInt(int min, int max) {

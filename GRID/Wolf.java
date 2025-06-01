@@ -1,27 +1,21 @@
 package GRID;
 
-public class Wolf extends Thread{
-    private Parameters parameters;
-    private Field field;
+public class Wolf extends Animal {
 
-    private Point position;
-    private boolean won = false;
-    private boolean isClicked = false;
-
-    public Wolf(Parameters parameters, Field field) {
-        this.parameters = parameters;
-        this.field = field;
-        this.position = parameters.getRandomPoint();
-        field.setWolfPosition(this.position, isClicked);
+    public Wolf(Field field) {
+        super(field, new AnimalState(0, "Wolf"));
+        if (field == null) {
+            throw new IllegalArgumentException("Field cannot be null");
+        }
     }
 
-    public Point getPosition() {
-        return position;
+    @Override
+    public void nextMove() {
+        if(getAnimalState().isClicked()) {
+            System.out.println("Wolf " + getAnimalState().getIndex() + " clicked: " + getAnimalState().isClicked() + 
+                               " at position (" + getField().getPositions()[getAnimalState().getIndex()].getRow() + 
+                               ", " + getField().getPositions()[getAnimalState().getIndex()].getColumn() + ")" + " " + getAnimalState().getType());
+        }
     }
-
-    public void setClicked(boolean isClicked) {
-        this.isClicked = isClicked;
-    }
-
-
+    
 }
