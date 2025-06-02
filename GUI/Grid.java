@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 
 import GRID.AnimalState;
-import GRID.Position;
 
 public class Grid extends JPanel {
     
@@ -27,9 +26,9 @@ public class Grid extends JPanel {
         setPreferredSize(new Dimension(width * 50, height * 50));
     }
 
-    public void refreshGrid(AnimalState[] states, int[][] indexes) {
-        if (states == null || states.length != gridCells.length * gridCells[0].length) {
-            throw new IllegalArgumentException("States array length does not match grid dimensions.");
+    public void refreshGrid(AnimalState[] states, Integer[][] indexes) {
+        if (states == null || indexes == null) {
+            throw new IllegalArgumentException("States or indexes cannot be null.");
         }
 
         this.removeAll();
@@ -38,8 +37,8 @@ public class Grid extends JPanel {
 
         for(int i = 0; i < gridCells.length; i++) {
             for (int j = 0; j < gridCells[i].length; j++) {
-                int index = indexes[i][j];
-                if (index >= 0 && index < states.length) {
+                Integer index = indexes[i][j];
+                if (index != null && index >= 0 && index < states.length) {
                     gridCells[i][j] = new Cell(states[index]);
                 } else {
                     gridCells[i][j] = new Cell(emptyState);

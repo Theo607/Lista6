@@ -33,23 +33,6 @@ public class App {
 
         Field field = new Field(parameters);
 
-        Animal[] animals = new Animal[hare+1];
-        for(int i = 0; i < hare + 1; i++) {
-            if(i == 0) {
-                animals[i] = new Wolf(field);
-            } else {
-                animals[i] = new Hare(i, field);
-            }
-        }
-
-        for (Animal animal : animals) {
-            field.addAnimal(animal, animal.getAnimalState().getIndex());
-        }
-
-        for (Animal animal : animals) {
-            animal.start();
-        }
-
         Grid grid = new Grid(width, height);
         mainFrame.remove(start);
         mainFrame.setSize(width * 125 + 50, height * 125 + 50);
@@ -57,12 +40,19 @@ public class App {
         mainFrame.repaint();
         mainFrame.setVisible(true);
 
-
-        Timer timer = new Timer(refreshRate, e -> {
-            grid.refreshGrid(field.getStates(), field.getIndexes());
+        field.fieldStart();
+        final Timer[] timer = new Timer[1];
+        timer[0] = new Timer(refreshRate, e -> {
+            grid.refreshGrid(field.getAnimalStates(), field.getIndexes());
             grid.repaint();
+            field.killAnimal(2);
+            if(field.gameEnded()) {
+                JOptionPane.showMessageDialog(mainFrame, "Game Over! The wolf has caught all the hares.");
+                field.killAll();
+                mainFrame.dispose();
+                timer[0].stop();
+            }
         });
-        timer.start();
-        
+        timer[0].start();
     }
 }

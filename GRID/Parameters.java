@@ -26,12 +26,16 @@ public class Parameters {
         return speed;
     }
 
+    public int getCycle() {
+        return rng.getInt((int)Math.floor(speed * 0.5), (int)Math.floor(speed * 1.5));
+    }
+
     public int getHareCount() {
         return hareCount;
     }
 
     public Position getRandomPosition() {
-        return rng.getRandomPosition(height, width);
+        return rng.getRandomPosition(width, height);
     }
 
     public int getInt(int min, int max) {

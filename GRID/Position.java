@@ -18,6 +18,9 @@ public class Position {
     }
 
     public double distanceTo(Position other) {
+        if (other == null) {
+            return 0;
+        }
         return Math.sqrt(Math.pow(row - other.getRow(), 2) + Math.pow(column - other.getColumn(), 2));
     }
 

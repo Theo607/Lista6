@@ -13,7 +13,7 @@ public class AnimalState {
         this.clicked = false;
     }
 
-    public void kill() {
+    public void dead() {
         this.alive = false;
     }
 
