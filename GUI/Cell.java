@@ -3,9 +3,17 @@ package GUI;
 import javax.swing.JButton;
 import GRID.AnimalState;
 
+/**
+ * Klasa zajmujaca sie pojedynczymi komorkami grida, przesyla statusy klikniec i obrazuje stan pozycji.
+ * @param state Stan danej komorki / pozycji (zwierzecia ktore na nim jest)
+ */
 public class Cell extends JButton {
     private AnimalState state;
 
+    /**
+     * Konstruktur komorki
+     * @param state Stan danej komorki
+     */
     public Cell(AnimalState state) {
         if(state == null) {
             throw new IllegalArgumentException("State cannot be null");
@@ -29,6 +37,9 @@ public class Cell extends JButton {
         this.addActionListener(e -> handleClick());
     }
 
+    /**
+     * Metoda obslugujaca klikniecia mysza
+     */
     public void handleClick() {
         state.setClicked(!state.isClicked());
         setBackground(state.isClicked() ? java.awt.Color.RED : java.awt.Color.WHITE);
@@ -39,6 +50,10 @@ public class Cell extends JButton {
         }
     }
 
+    /**
+     * Geter statusu komorki
+     * @return Status komorki
+     */
     public AnimalState getState() {
         return state;
     }

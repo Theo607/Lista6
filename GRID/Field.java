@@ -1,5 +1,13 @@
 package GRID;
 
+/**
+ * Kluczowa klasa pakietu, przechowuje informacje o zwierzakach, ich pozycjach, indexach itd
+ * @param animals Tablica zwierząt
+ * @param parameters Parametry z jakimi zostanie uruchomiona plansz (szerokosc, wysokosc, szybkosc itd.)
+ * @param indexes Indexy zwierzat z tablicy
+ * @param positions Pozycje zwierzat z tablicy
+ * @param gameEnded Status skonczenia symulacji
+ */
 public class Field {
     private Animal[] animals;
     private Parameters parameters;
@@ -7,6 +15,10 @@ public class Field {
     private Position[] positions;
     private boolean gameEnded;
 
+    /**
+     * Konstruktor planszy
+     * @param parameters Parametry potrzebne do stworzenia planszy
+     */
     public Field(Parameters parameters) {
         this.gameEnded = false;
         this.parameters = parameters;
@@ -24,6 +36,9 @@ public class Field {
         initializeAnimals();
     }
 
+    /**
+     * Metoda tworząca wszystkie zwierzęta.
+     */
     private void initializeAnimals() {
         Position wolfPosition = parameters.getRandomPosition();
         AnimalState wolfState = new AnimalState(0, "Wolf");
@@ -48,6 +63,9 @@ public class Field {
         ((Wolf) animals[0]).setHares(animals);
     }
 
+    /**
+     * Metoda, ktora uruchamia pokolei wszystkie zwierzeta z planszy
+     */
     public void fieldStart() {
         for (Animal animal : animals) {
             if (animal != null) {
@@ -56,6 +74,10 @@ public class Field {
         }
     }
 
+    /**
+     * Metoda zabijajaca dane zwierze/watek
+     * @param index Index zwierzecia do zabicia
+     */
     public void killAnimal(int index) {
          // Kill the animal at the specified index
          // Clear the position of the killed animal
@@ -69,6 +91,9 @@ public class Field {
         positions[index] = null;
     }
 
+    /**
+     * Metoda zabijajaca wszystkie zwierzecia
+     */
     public void killAll() {
         for (Animal animal : animals) {
             if (animal != null && animal.animalIsAlive()) {
@@ -78,10 +103,18 @@ public class Field {
         gameEnded = true; // Set game ended to true
     }
 
+    /**
+     * Metoda zwracajaca wszystkie zwierzecia jako tablice
+     * @return Tablica zwierzat z planszy
+     */
     public Animal[] getAnimals() {
         return animals;
     }
 
+    /**
+     * Geter tablicy statusów zwierzat z planszy
+     * @return tablica statusów zwierząt z planszy
+     */
     public AnimalState[] getAnimalStates() {
         AnimalState[] states = new AnimalState[animals.length];
         for (int i = 0; i < animals.length; i++) {
@@ -89,27 +122,57 @@ public class Field {
         }
         return states;
     }
+
+    /**
+     * Geter Indexow wzgledem pozycji
+     * @return Tablica dwu-wymiarowa podaje index zwierzecia znajdujacego sie na podanej pozycji
+     */
     public Integer[][] getIndexes() {
         return indexes;
     }
 
+
+    /**
+     * Geter dlugosci odpoczynku
+     * @return zwraca odpowienia dlugosc odpoczynku zwierzecia
+     */
     public int getCycle() {
         return parameters.getCycle();
     }
 
+    /**
+     * Geter losowej liczby z [min,max)
+     * @param min Najmniejsza możliwa liczba
+     * @param max Ograniczenie górne
+     * @return Losowa liczba pomiedzy min i max
+     */
     public int getInt(int min, int max) {
         return parameters.getInt(min, max);
     }
 
+    /**
+     * Funkcja sprawdzajaca czy pozycja jest na planszy
+     * @param position Pozycja do sprawdzenia 
+     * @return boolean mowiacy o tym czy pozycja jest na planszy
+     */
     public boolean inBounds(Position position) {
         return position.getRow() >= 0 && position.getRow() < parameters.getHeight() &&
                position.getColumn() >= 0 && position.getColumn() < parameters.getWidth();
     }
 
+    /**
+     * Geter sprawdzajacy czy pozycja jest zajeta na planszy
+     * @param position Pozycja do sprawdzenia
+     * @return Boolean mowiacy o tym czy pozycja jest zajeta
+     */
     public boolean isPositionOccupied(Position position) {
         return indexes[position.getRow()][position.getColumn()] != null;
     }
 
+    /**
+     * Funkcja sprawdzajacy czy symulacja sie skonczyla
+     * @return Boolean mowiacy o tym czy sie skonczyla
+     */
     public boolean gameEnded() {
         boolean allHaresDead = true;
         for (int i = 1; i < animals.length; i++) {
@@ -119,11 +182,16 @@ public class Field {
             }
         }
         if (allHaresDead) {
-            gameEnded = true; // Set game ended if all hares are dead
+            gameEnded = true; 
         }
         return gameEnded;
     }
 
+    /**
+     * Metoda odswiezajaca informacje o pozycji danego zwierzecia
+     * @param index Index zwierzecia
+     * @param newPosition Jego nowa pozycja
+     */
     public void updatePosition(int index, Position newPosition) {
         Position oldPosition = positions[index];
         

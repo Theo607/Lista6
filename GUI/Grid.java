@@ -5,10 +5,19 @@ import java.awt.*;
 
 import GRID.AnimalState;
 
+/**
+ * Klasa obslugujaca graficzna reprezentacje planszy
+ * @param gridCells Tablicza 2-wymiarowa komorek z planszy
+ */
 public class Grid extends JPanel {
     
     private Cell[][] gridCells;
 
+    /**
+     * Konstruktor Grida
+     * @param width Szerokosc
+     * @param height Wysokosc
+     */
     public Grid(int width, int height) {
         setLayout(new GridLayout(height, width));
         gridCells = new Cell[height][width];
@@ -26,6 +35,11 @@ public class Grid extends JPanel {
         setPreferredSize(new Dimension(width * 50, height * 50));
     }
 
+    /**
+     * Odswiezanie obiektu
+     * @param states Statusy komorek
+     * @param indexes Indexy wzgledem pozycji
+     */
     public void refreshGrid(AnimalState[] states, Integer[][] indexes) {
         if (states == null || indexes == null) {
             throw new IllegalArgumentException("States or indexes cannot be null.");

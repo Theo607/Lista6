@@ -1,16 +1,32 @@
 package GRID;
 
+/**
+ * Klasa zajmujaca sie zajacami
+ * @param wolf Odniesienie do wilka
+ */
 public class Hare extends Animal {
     private Wolf wolf;
 
+    /**
+     * Konstruktor zajaca
+     * @param state Stan zajaca
+     * @param position Pozycja zajaca
+     */
     public Hare(AnimalState state, Position position) {
         super(state, position);
     }
 
+    /**
+     * seter wilka
+     * @param wolf Wilk
+     */
     public void setWolf(Wolf wolf) {
         this.wolf = wolf;
     }
 
+    /**
+     * Funkcja opisujaca ruchy podejmowane przez zajaca
+     */
     @Override
     public synchronized void nextMove() {
         if(animalIsAlive() && !animalIsClicked()) {

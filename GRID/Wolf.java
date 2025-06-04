@@ -1,16 +1,33 @@
 package GRID;
 
+/**
+ * Klasa zajmujaca sie wilkiem
+ * @param hares Tablica przechowujaca informacje o zajacach
+ */
 public class Wolf extends Animal {
     private Animal[] hares;
 
+    /**
+     * Konstruktor wilka
+     * @param state Stan wilka
+     * @param position Jego pozycja
+     */
     public Wolf(AnimalState state, Position position) {
         super(state, position);
     }
 
+    /**
+     * Ustawianie zajecy z planszy
+     * @param hares Zajace z planszy
+     */
     public void setHares(Animal[] hares) {
         this.hares = hares;
     }
 
+    /**
+     * Funkcja zwracajaca najblizszego zajaca
+     * @return Najblizszy zajac
+     */
     public Hare getClosestHare() {
         Hare closestHare = null;
         double minDistance = Double.MAX_VALUE;
@@ -40,11 +57,21 @@ public class Wolf extends Animal {
         return closestHare;
     }
 
+    /**
+     * Funkcja sprawdzajaca czy da sie zjesc zajaca
+     * @param hare Zajac do sprawdzenia
+     * @return Bool mowiacy o zjadalnosci zajaca
+     */
     public boolean isHareInRange(Hare hare) {
         double distance = getPosition().distanceTo(hare.getPosition());
         return distance <= 1.5; 
     }
 
+    /**
+     * Funkcja zwracajaca najlepszy ruch dla wilka
+     * @param harePosition pozycja najblizszego zajaca
+     * @return Nowa pozycja na ktora nalezy sie przesunac
+     */
     public Position bestMove(Position harePosition) {
         Position currePosition = getPosition();
 
@@ -87,6 +114,10 @@ public class Wolf extends Animal {
         return bestMove;
 
     }
+
+    /**
+     * Funkcja odpowiadajaca za ruchy i akcje ktore podejmuje wilk
+     */
 
     @Override
     public synchronized void nextMove() {

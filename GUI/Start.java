@@ -3,6 +3,14 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * KLasa obslugujaca panel startowy
+ * @param started Wystartowanie aplikacji
+ * @param width Szerokosc
+ * @param height Wysokosc 
+ * @param speed Predkosc
+ * @param hare Liczba zajecy
+ */
 public class Start extends JPanel{
 
     private boolean started = false;
@@ -11,6 +19,9 @@ public class Start extends JPanel{
     private int speed;
     private int hare;
 
+    /**
+     * Konstruktor panelu startowego
+     */
     public Start() {
         setLayout(new BorderLayout(10, 10));
 
@@ -81,18 +92,38 @@ public class Start extends JPanel{
         });
     }
 
+    /**
+     * Geter szerokosci
+     * @return Szerokosc
+     */
     public int getWidthValue() {
         return width;
     }
+    /**
+     * Geter wysokosci
+     * @return Wysokosc
+     */
     public int getHeightValue() {
         return height;
     }
+    /**
+     * Geter predkosci
+     * @return Predkosc
+     */
     public int getSpeedValue() {
         return speed;
     }
+    /**
+     * Geter liczby zajecy
+     * @return Liczba zajecy
+     */
     public int getHareValue() {
         return hare;
     }
+    /**
+     * Geter wystartowania symulacji
+     * @return boolean mowiacy o tym czy wczytano wsztstkie dane
+     */
     public boolean isStarted() {
         return started;
     }

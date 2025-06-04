@@ -4,7 +4,16 @@ import GRID.*;
 import GUI.*;
 import javax.swing.*;
 
+/**
+ * Klasa App obsługuje wczytywanie danych i uruchamianie programu. Tworzy główne okno i dodaje do niego odpowiednie panele.
+ */
+
 public class App {
+
+    /**
+     * Główna funkcja App, uruchamia program, konstruuje potrzebne obiekty.
+     * @param args Nie są używane.
+     */
     public static void main(String[] args) {
         JFrame mainFrame = new JFrame();
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
